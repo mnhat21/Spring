@@ -1,0 +1,21 @@
+package com.mnn.springcoredemo.common;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class FootballCoach  implements Coach{
+
+    public FootballCoach(){
+        System.out.println("In constructor : " + getClass().getSimpleName());
+    }
+
+    @Override
+    public String getDailyWorkout() {
+        return "Play football for 1 hour !!";
+    }
+
+    @Override
+    public boolean getResult() {
+        return false;
+    }
+}
