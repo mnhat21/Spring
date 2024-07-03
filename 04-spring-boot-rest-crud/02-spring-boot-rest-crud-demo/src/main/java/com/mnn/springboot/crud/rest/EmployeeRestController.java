@@ -1,7 +1,8 @@
-package com.mnn.springboot.crud;
+package com.mnn.springboot.crud.rest;
 
 import com.mnn.springboot.crud.dao.EmployeeDAOImpl;
 import com.mnn.springboot.crud.entity.Employee;
+import com.mnn.springboot.crud.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +12,11 @@ import java.util.List;
 @RequestMapping("api")
 public class EmployeeRestController {
 
-    private EmployeeDAOImpl employeeService;
+    private EmployeeService employeeService;
 
     @Autowired
-    public EmployeeRestController(EmployeeDAOImpl employeeDAOImpl) {
-        employeeService = employeeDAOImpl;
+    public EmployeeRestController(EmployeeService theEmployeeService) {
+        employeeService = theEmployeeService;
     }
 
     @PostMapping("/employee")
@@ -37,5 +38,22 @@ public class EmployeeRestController {
             throw new RuntimeException("Can not find Employee !!");
         }
         return employee;
+    }
+
+    @PutMapping("/employee/{employeeId}")
+    public Employee updateEmployee(@RequestBody Employee employee, @PathVariable int employeeId) {
+        employee.setId(employeeId);
+        employeeService.save(employee);
+        return employee;
+    }
+
+    @DeleteMapping("/employee/{employeeId}")
+    public String deleteEmployee(@PathVariable int employeeId) {
+        Employee employee = employeeService.getById(employeeId);
+        if (employee == null) {
+            throw new RuntimeException("Can not find Employee !!");
+        }
+        employeeService.deleteById(employeeId);
+        return "Deleted Employee with ID " + employeeId;
     }
 }
