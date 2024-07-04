@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Student Page</title>
+
+</head>
+
+<body>
+
+<br><br>
+
+Student name : <span th:object="${student}" th:text="${student.firstName} + ' ' + ${student.lastName}" />
+
+</body>
+
+</html>
