@@ -1,11 +1,10 @@
-package com.mnn.springboot.crud.dao;
+package com.mnn.springboot.thymeleafdemo.service;
 
-import com.mnn.springboot.crud.entity.Employee;
-import org.springframework.stereotype.Repository;
+import com.mnn.springboot.thymeleafdemo.entity.Employee;
 
 import java.util.List;
 
-public interface EmployeeDAO {
+public interface EmployeeService {
 
     public List<Employee> getAll();
 

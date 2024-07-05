@@ -1,8 +1,7 @@
-package com.mnn.springboot.crud.service;
+package com.mnn.springboot.thymeleafdemo.service;
 
-import com.mnn.springboot.crud.dao.EmployeeDAO;
-import com.mnn.springboot.crud.dao.EmployeeDAOImpl;
-import com.mnn.springboot.crud.entity.Employee;
+import com.mnn.springboot.thymeleafdemo.dao.EmployeeDAO;
+import com.mnn.springboot.thymeleafdemo.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
