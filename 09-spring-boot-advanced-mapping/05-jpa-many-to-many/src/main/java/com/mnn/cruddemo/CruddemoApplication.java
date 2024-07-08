@@ -2,10 +2,7 @@ package com.mnn.cruddemo;
 
 import com.mnn.cruddemo.dao.AppDAO;
 import com.mnn.cruddemo.dao.AppDAOImpl;
-import com.mnn.cruddemo.entity.Course;
-import com.mnn.cruddemo.entity.Instructor;
-import com.mnn.cruddemo.entity.InstructorDetail;
-import com.mnn.cruddemo.entity.Review;
+import com.mnn.cruddemo.entity.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,25 +21,9 @@ public class CruddemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(AppDAO appDAO) {
 		return runner -> {
-			// createInstructorWithCourses(appDAO);
-			// findInstructorWithCourses(appDAO);
-			// findInstructorByIdJoinFetch(appDAO);
-			createCourseAndReview(appDAO);
+			// createCourseAndStudents(appDAO);
+			retrieveCourseAndStudents(appDAO);
 		};
-	}
-
-	public void findIntructorDetailById(AppDAO appDAO) {
-		int id = 1;
-		InstructorDetail instructorDetail = appDAO.findInstructorDetailById(id);
-		System.out.println("Found Instructor Detail : " + instructorDetail);
-		System.out.println("Associated Instructor : " + instructorDetail.getInstructor());
-	}
-
-	public void deleteIntructorDetailById(AppDAO appDAO) {
-		int id = 1;
-		InstructorDetail instructorDetail = appDAO.findInstructorDetailById(id);
-		appDAO.deleteInstructorDetailById(id);
-		System.out.println("Delete Instructor Detail Successfully -> " + instructorDetail);
 	}
 
 	public void deleteInstructor(AppDAO appDAO) {
@@ -82,20 +63,6 @@ public class CruddemoApplication {
 		System.out.println("!! Saved completed !!");
 	}
 
-	public void findInstructorWithCourses(AppDAO appDAO) {
-		int theId = 1;
-		Instructor instructor = appDAO.findInstructorById(theId);
-		System.out.println("Found Instructor -> " + instructor);
-		System.out.println("Associated Courses -> " + appDAO.findCourseByInstructorId(theId));
-	}
-
-	public void findInstructorByIdJoinFetch(AppDAO appDAO) {
-		int theId = 1;
-		Instructor instructor = appDAO.findInstructorByIdJoinFetch(theId);
-		System.out.println("Found Instructor -> " + instructor);
-		System.out.println("Associated Courses -> " + instructor.getCourse());
-	}
-
 	public void createCourseAndReview(AppDAO appDAO) {
 		// create the Instructor
 		Course course = new Course("Orange - 7!!");
@@ -115,9 +82,36 @@ public class CruddemoApplication {
 		// Cause of CascadeType.PERSIST
 
 		System.out.println("Saving course : " + course);
-		appDAO.saveCourse(course);
+		appDAO.save(course);
 		System.out.println("Reviews : " + course.getReviews());
 
 		System.out.println("!! Saved completed !!");
+	}
+
+	public void createCourseAndStudents(AppDAO appDAO) {
+		// create a course
+		Course course = new Course("Guitar with Sunghajung");
+
+		// create the students
+		Student student1 = new Student("Yang", "Nguyen", "mnn@gmail.com");
+		Student student2 = new Student("Nhat", "Nguyen", "minhnhat221201@gmail.com");
+		Student student3 = new Student("Phuong", "Ha", "minhminh1721@gmail.com");
+
+		// add students to the course
+		course.addStudent(student1);
+		course.addStudent(student2);
+		course.addStudent(student3);
+
+		// save the course and associated students
+		System.out.println("Saved Course -> " + course);
+		System.out.println("Associated student -> " + course.getStudents());
+		appDAO.save(course);
+	}
+
+	public void retrieveCourseAndStudents(AppDAO appDAO) {
+		int theId = 10;
+		Course course = appDAO.findCourseAndStudentsByCourseId(theId);
+		System.out.println("Found course -> " + course);
+		System.out.println("Associated studednts -> " + course.getStudents());
 	}
 }
